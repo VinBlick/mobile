@@ -38,6 +38,9 @@ export function OrderProgress({ order }: { order: Order }) {
           </View>
         );
       })}
+      {order.progress.steps.some((x) => x.step === "FETCH" && x.status === "running") ? (
+        <Text variant="small">{t("steps.fetchHint")}</Text>
+      ) : null}
     </View>
   );
 }

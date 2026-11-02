@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import { CircleCheck, CircleMinus, Info } from "lucide-react-native";
-import type { VinCheck } from "@/entities/check";
+import { CircleCheck, CircleMinus, Clock, Info } from "lucide-react-native";
+import { isAfterPurchase, type VinCheck } from "@/entities/check";
 import { useT, type TKey } from "@/shared/i18n";
 import { useFormat } from "@/shared/lib";
 import { colors, fonts } from "@/shared/theme";
@@ -10,6 +10,8 @@ export function CheckResult({ check }: { check: VinCheck }) {
   const t = useT();
   const f = useFormat();
   const found = check.categories.filter((c) => c.found);
+  // e.g. manufacturer service history: no free check, requested after purchase
+  const afterPurchase = check.categories.filter(isAfterPurchase);
   const vehicle = [check.vehicle.manufacturer, check.vehicle.model, check.vehicle.modelYear].filter(Boolean).join(" ");
   return (
     <Card elevated>
@@ -37,6 +39,25 @@ export function CheckResult({ check }: { check: VinCheck }) {
       ) : (
         <Text variant="bodyMuted">{t("check.notFoundHint")}</Text>
       )}
+      {afterPurchase.length ? (
+        <View style={styles.after}>
+          <View style={styles.head}>
+            <Clock color={colors.brand} size={16} />
+            <Text variant="label" style={{ color: colors.brand }}>
+              {t("check.afterPurchase")}
+            </Text>
+          </View>
+          {afterPurchase.map((c) => (
+            <View key={c.category} style={styles.item}>
+              <View style={styles.unknown}>
+                <Text style={[styles.countText, { color: colors.muted }]}>?</Text>
+              </View>
+              <Text style={{ flex: 1, fontSize: 15 }}>{t(`categories.${c.category}` as TKey)}</Text>
+            </View>
+          ))}
+          <Text variant="small">{t("check.afterPurchaseHint")}</Text>
+        </View>
+      ) : null}
       {check.cached ? (
         <View style={styles.cached}>
           <Info color={colors.muted} size={14} />
@@ -57,4 +78,6 @@ const styles = StyleSheet.create({
   count: { minWidth: 30, alignItems: "center", backgroundColor: colors.accent, borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
   countText: { fontFamily: fonts.bold, fontSize: 13, color: colors.brand },
   cached: { flexDirection: "row", gap: 6, alignItems: "flex-start" },
+  after: { gap: 8, backgroundColor: colors.surface, borderRadius: 8, padding: 12 },
+  unknown: { minWidth: 30, alignItems: "center", borderWidth: 1, borderColor: colors.line, borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
 });

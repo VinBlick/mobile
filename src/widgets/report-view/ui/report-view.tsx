@@ -98,6 +98,21 @@ export function ReportView({ report }: { report: Report }) {
                 <Text variant="small" style={{ color: colors.ink }}>
                   {fd.explanation}
                 </Text>
+                {fd.kind || fd.basis ? (
+                  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+                    {fd.kind ? (
+                      <Badge
+                        label={t(fd.kind === "ASSUMPTION" ? "report.assumption" : "report.fact")}
+                        tone={fd.kind === "ASSUMPTION" ? "warning" : "muted"}
+                      />
+                    ) : null}
+                    {fd.basis ? (
+                      <Text variant="small" style={{ flex: 1, minWidth: 160 }}>
+                        {t("report.basis")}: {fd.basis}
+                      </Text>
+                    ) : null}
+                  </View>
+                ) : null}
               </View>
             ))}
             {a.sellerQuestions.length ? (
@@ -113,6 +128,18 @@ export function ReportView({ report }: { report: Report }) {
                 ))}
               </View>
             ) : null}
+          </Card>
+        </FadeIn>
+      ) : report.analysisStatus && report.analysisStatus !== "completed" && report.analysisStatus !== "not_included" ? (
+        <FadeIn index={2}>
+          <Card>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Info color={colors.muted} size={20} />
+              <Text variant="h3" style={{ flex: 1 }}>
+                {t("report.analysis")}
+              </Text>
+            </View>
+            <Text variant="bodyMuted">{t(`report.noAnalysis.${report.analysisStatus}` as TKey)}</Text>
           </Card>
         </FadeIn>
       ) : null}

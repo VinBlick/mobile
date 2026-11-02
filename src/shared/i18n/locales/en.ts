@@ -78,6 +78,8 @@ export const en: Dictionary = {
     notFoundHint: "We currently have no records for this VIN. Check your input or try again later.",
     cached: "As of {date}",
     freeHint: "The preview is free. You get the details with a report.",
+    afterPurchase: "Requested after purchase",
+    afterPurchaseHint: "There is no free availability check for this data. The report shows whether records exist.",
   },
   categories: {
     SPECS: "Vehicle data",
@@ -98,6 +100,7 @@ export const en: Dictionary = {
     inclVat: "incl. VAT",
     coverage: "{n} of {total} categories found",
     validity: "valid for {n} days",
+    afterPurchase: "requested after purchase",
     continue: "Continue",
   },
   features: {
@@ -223,6 +226,7 @@ export const en: Dictionary = {
     PDF: "Creating PDF",
     NOTIFY: "Finishing",
     retrying: "retrying",
+    fetchHint: "Some sources – e.g. the manufacturer service history – are prepared in the background. This usually takes a few minutes; we notify you when the report is ready.",
   },
   orderStatus: {
     awaiting_payment: "Payment pending",
@@ -279,6 +283,16 @@ export const en: Dictionary = {
     disclaimer:
       "The report is based on third-party data as of the stated date. Missing records do not mean that nothing happened. It does not replace an inspection or expert appraisal.",
     offline: "Offline – showing the saved version.",
+    fact: "Fact",
+    assumption: "Assumption",
+    basis: "Basis",
+    noAnalysis: {
+      unavailable: "The AI analysis is temporarily unavailable. All source data is included – the analysis will be added automatically.",
+      budget_exceeded: "The AI analysis is currently unavailable. All source data is included.",
+      disabled: "This report contains no AI analysis. All source data is included.",
+      not_included: "The package does not include an AI analysis.",
+      completed: "",
+    },
   },
   severity: {
     low: "Low risk",
