@@ -24,13 +24,22 @@ export type ReportRecord = {
 
 export type ReportSection = { category: CategoryKey; records: ReportRecord[] };
 
+/** FACT = stated in the source data, ASSUMPTION = interpretation */
+export type ClaimKind = "FACT" | "ASSUMPTION";
+
 export type Finding = {
   type: string;
   severity: Severity;
+  kind?: ClaimKind;
   title: string;
   explanation: string;
+  /** which data the finding is based on */
+  basis?: string;
   evidence: string[];
 };
+
+/** null for older reports */
+export type AnalysisStatus = "completed" | "unavailable" | "budget_exceeded" | "disabled" | "not_included";
 
 export type Report = {
   id?: string;
@@ -55,7 +64,7 @@ export type Report = {
     summary: string;
     overallRisk: Severity;
     findings: Finding[];
-    risks: { title: string; severity: Severity; evidence: string[] }[];
+    risks: { title: string; severity: Severity; kind?: ClaimKind; evidence: string[] }[];
     sellerQuestions: string[];
     mileage: {
       readings: number;
@@ -77,6 +86,7 @@ export type Report = {
     };
     absenceNotes: string[];
   } | null;
+  analysisStatus?: AnalysisStatus | null;
   photos: { url: string; recordId: string; date: string | null }[];
   groups: {
     independent: ReportSection[];

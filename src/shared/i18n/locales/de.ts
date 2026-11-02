@@ -77,6 +77,8 @@ export const de = {
     notFoundHint: "Zu dieser FIN liegen uns derzeit keine Einträge vor. Prüfen Sie die Eingabe oder versuchen Sie es später erneut.",
     cached: "Stand: {date}",
     freeHint: "Die Vorschau ist kostenlos. Details erhalten Sie mit einem Bericht.",
+    afterPurchase: "Wird nach dem Kauf abgefragt",
+    afterPurchaseHint: "Für diese Daten gibt es keine kostenlose Vorab-Prüfung. Ob Einträge vorhanden sind, zeigt erst der Bericht.",
   },
   categories: {
     SPECS: "Fahrzeugdaten",
@@ -97,6 +99,7 @@ export const de = {
     inclVat: "inkl. MwSt.",
     coverage: "{n} von {total} gefundenen Kategorien",
     validity: "{n} Tage gültig",
+    afterPurchase: "wird nach dem Kauf abgefragt",
     continue: "Weiter",
   },
   features: {
@@ -222,6 +225,7 @@ export const de = {
     PDF: "PDF erstellen",
     NOTIFY: "Fertigstellen",
     retrying: "neuer Versuch läuft",
+    fetchHint: "Einige Quellen – z. B. die Servicehistorie des Herstellers – werden im Hintergrund vorbereitet. Das dauert meist wenige Minuten; wir benachrichtigen Sie, sobald der Bericht fertig ist.",
   },
   orderStatus: {
     awaiting_payment: "Zahlung offen",
@@ -278,6 +282,16 @@ export const de = {
     disclaimer:
       "Der Bericht basiert auf Daten Dritter zum angegebenen Datenstand. Fehlende Einträge bedeuten nicht, dass es keine Ereignisse gab. Er ersetzt keine Besichtigung oder Gutachten.",
     offline: "Offline – gespeicherte Version wird angezeigt.",
+    fact: "Fakt",
+    assumption: "Annahme",
+    basis: "Grundlage",
+    noAnalysis: {
+      unavailable: "Die KI-Auswertung ist vorübergehend nicht verfügbar. Alle Daten der Quellen sind vollständig enthalten – die Auswertung wird automatisch nachgereicht.",
+      budget_exceeded: "Die KI-Auswertung ist derzeit nicht verfügbar. Alle Daten der Quellen sind vollständig enthalten.",
+      disabled: "Dieser Bericht enthält keine KI-Auswertung. Alle Daten der Quellen sind vollständig enthalten.",
+      not_included: "Das Paket enthält keine KI-Auswertung.",
+      completed: "",
+    },
   },
   severity: {
     low: "Geringes Risiko",

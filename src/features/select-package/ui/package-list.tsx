@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Check, CircleDot, Circle } from "lucide-react-native";
+import { Check, CircleDot, Circle, Clock } from "lucide-react-native";
 import { RECOMMENDED_PACKAGE, type ReportPackage } from "@/entities/package";
 import { useT, type TKey } from "@/shared/i18n";
 import { useFormat } from "@/shared/lib";
@@ -12,11 +12,14 @@ export function PackageList({
   selected,
   onSelect,
   foundCategories,
+  afterPurchaseCategories = [],
 }: {
   packages: ReportPackage[];
   selected: string | null;
   onSelect: (code: string) => void;
   foundCategories?: string[];
+  /** no free check for these — data is requested after purchase */
+  afterPurchaseCategories?: string[];
 }) {
   const t = useT();
   const f = useFormat();
@@ -58,8 +61,15 @@ export function PackageList({
                 <View style={styles.list}>
                   {p.categories.map((c) => (
                     <View key={c} style={styles.li}>
-                      <Check color={foundCategories?.includes(c) ? colors.success : colors.brand} size={16} />
-                      <Text style={{ fontSize: 14 }}>{t(`categories.${c}` as TKey)}</Text>
+                      {afterPurchaseCategories.includes(c) ? (
+                        <Clock color={colors.muted} size={16} />
+                      ) : (
+                        <Check color={foundCategories?.includes(c) ? colors.success : colors.brand} size={16} />
+                      )}
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 14 }}>{t(`categories.${c}` as TKey)}</Text>
+                        {afterPurchaseCategories.includes(c) ? <Text variant="small">{t("packages.afterPurchase")}</Text> : null}
+                      </View>
                     </View>
                   ))}
                   {p.features.map((ft) => (

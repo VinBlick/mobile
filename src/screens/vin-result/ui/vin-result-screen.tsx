@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowRight } from "lucide-react-native";
-import { checkKey, type VinCheck } from "@/entities/check";
+import { checkKey, isAfterPurchase, type VinCheck } from "@/entities/check";
 import { packagesQuery, RECOMMENDED_PACKAGE } from "@/entities/package";
 import { CheckResult, useVinCheck } from "@/features/check-vin";
 import { PackageList } from "@/features/select-package";
@@ -30,12 +30,15 @@ export function VinResultScreen() {
   if (!data) return check.error ? <ErrorState error={check.error} onRetry={() => check.mutate({ vin })} /> : <Loading label={t("vin.checking")} />;
 
   const found = data.categories.filter((c) => c.found).map((c) => c.category);
+  const afterPurchase = data.categories.filter(isAfterPurchase).map((c) => c.category);
+  // buying makes sense when data was found or can only be checked after purchase
+  const canBuy = data.anyDataFound || afterPurchase.length > 0;
 
   return (
     <Screen
       background={colors.surface}
       footer={
-        data.anyDataFound && selected ? (
+        canBuy && selected ? (
           <Button
             title={t("packages.continue")}
             iconRight={<ArrowRight color={colors.ink} size={18} />}
@@ -45,7 +48,7 @@ export function VinResultScreen() {
       }
     >
       <CheckResult check={data} />
-      {data.anyDataFound ? (
+      {canBuy ? (
         <View style={{ gap: 12 }}>
           <Text variant="h2">{t("packages.title")}</Text>
           {packages.isLoading ? (
@@ -56,7 +59,7 @@ export function VinResultScreen() {
           ) : packages.error ? (
             <ErrorState error={packages.error} onRetry={() => packages.refetch()} />
           ) : (
-            <PackageList packages={packages.data ?? []} selected={selected} onSelect={setSelected} foundCategories={found} />
+            <PackageList packages={packages.data ?? []} selected={selected} onSelect={setSelected} foundCategories={found} afterPurchaseCategories={afterPurchase} />
           )}
         </View>
       ) : (
